@@ -6,7 +6,7 @@
         app:title="@string/home">
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-            android:defaultValue="0"
+            android:defaultValue="1"
             android:entries="@array/pref_home_grid_style_list_titles"
             android:entryValues="@array/pref_home_grid_style_list_values"
             android:key="home_artist_grid_style"
@@ -17,7 +17,7 @@
             app:icon="@drawable/ic_home" />
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-            android:defaultValue="4"
+            android:defaultValue="1"
             android:entries="@array/pref_home_grid_style_list_titles"
             android:entryValues="@array/pref_home_grid_style_list_values"
             android:key="home_album_grid_style"
@@ -54,7 +54,7 @@
         android:title="@string/pref_header_library">
 
         <code.name.monkey.retromusic.preferences.LibraryPreference
-            android:key="library_categories"
+            android:key=""
             android:layout="@layout/list_item_view"
             android:summary="@string/pref_summary_library_categories"
             android:title="@string/library_categories"
@@ -75,7 +75,7 @@
             android:title="@string/pref_title_enable_search_playlist" />
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-            android:defaultValue="0"
+            android:defaultValue="1"
             android:entries="@array/pref_tab_text_mode_titles"
             android:entryValues="@array/pref_tab_text_mode_values"
             android:key="tab_text_mode"
@@ -85,7 +85,7 @@
             android:title="@string/pref_title_tab_text_mode" />
 
         <code.name.monkey.appthemehelper.common.prefs.supportv7.ATEListPreference
-            android:defaultValue="1"
+            android:defaultValue="0"
             android:entries="@array/pref_appbar_mode_titles"
             android:entryValues="@array/pref_appbar_mode_values"
             android:key="appbar_mode"

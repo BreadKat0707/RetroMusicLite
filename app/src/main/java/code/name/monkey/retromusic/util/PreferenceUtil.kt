@@ -34,13 +34,13 @@ object PreferenceUtil {
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getContext())
 
     val defaultCategories = listOf(
-        CategoryInfo(CategoryInfo.Category.Home, true),
+        CategoryInfo(CategoryInfo.Category.Home, false),
         CategoryInfo(CategoryInfo.Category.Songs, true),
         CategoryInfo(CategoryInfo.Category.Albums, true),
         CategoryInfo(CategoryInfo.Category.Artists, true),
         CategoryInfo(CategoryInfo.Category.Playlists, true),
         CategoryInfo(CategoryInfo.Category.Genres, false),
-        CategoryInfo(CategoryInfo.Category.Folder, false),
+        CategoryInfo(CategoryInfo.Category.Folder, true),
         CategoryInfo(CategoryInfo.Category.Search, false)
     )
 
@@ -593,7 +593,7 @@ object PreferenceUtil {
                     return nowPlayingScreen
                 }
             }
-            return NowPlayingScreen.Adaptive
+            return NowPlayingScreen.Blur
         }
         set(value) = sharedPreferences.edit {
             putInt(NOW_PLAYING_SCREEN_ID, value.id)
@@ -729,10 +729,10 @@ object PreferenceUtil {
         set(value) = sharedPreferences.edit { putFloat(PLAYBACK_PITCH, value) }
 
     val appBarMode: TopAppBarLayout.AppBarMode
-        get() = if (sharedPreferences.getString(APPBAR_MODE, "1") == "0") {
+        get() = if (sharedPreferences.getString(APPBAR_MODE, "0") == "1") {
             TopAppBarLayout.AppBarMode.COLLAPSING
         } else {
-            TopAppBarLayout.AppBarMode.SIMPLE
+            TopAppBarLayout.AppBarMode.COLLAPSING
         }
 
     val wallpaperAccent

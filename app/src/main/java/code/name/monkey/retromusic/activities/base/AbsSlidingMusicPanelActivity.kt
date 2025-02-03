@@ -78,24 +78,8 @@ import code.name.monkey.retromusic.fragments.NowPlayingScreen
 import code.name.monkey.retromusic.fragments.NowPlayingScreen.*
 import code.name.monkey.retromusic.fragments.base.AbsPlayerFragment
 import code.name.monkey.retromusic.fragments.other.MiniPlayerFragment
-import code.name.monkey.retromusic.fragments.player.adaptive.AdaptiveFragment
 import code.name.monkey.retromusic.fragments.player.blur.BlurPlayerFragment
-import code.name.monkey.retromusic.fragments.player.card.CardFragment
-import code.name.monkey.retromusic.fragments.player.cardblur.CardBlurFragment
-import code.name.monkey.retromusic.fragments.player.circle.CirclePlayerFragment
-import code.name.monkey.retromusic.fragments.player.classic.ClassicPlayerFragment
-import code.name.monkey.retromusic.fragments.player.color.ColorFragment
-import code.name.monkey.retromusic.fragments.player.fit.FitFragment
-import code.name.monkey.retromusic.fragments.player.flat.FlatPlayerFragment
-import code.name.monkey.retromusic.fragments.player.full.FullPlayerFragment
-import code.name.monkey.retromusic.fragments.player.gradient.GradientPlayerFragment
-import code.name.monkey.retromusic.fragments.player.material.MaterialFragment
 import code.name.monkey.retromusic.fragments.player.md3.MD3PlayerFragment
-import code.name.monkey.retromusic.fragments.player.normal.PlayerFragment
-import code.name.monkey.retromusic.fragments.player.peek.PeekPlayerFragment
-import code.name.monkey.retromusic.fragments.player.plain.PlainPlayerFragment
-import code.name.monkey.retromusic.fragments.player.simple.SimplePlayerFragment
-import code.name.monkey.retromusic.fragments.player.tiny.TinyPlayerFragment
 import code.name.monkey.retromusic.fragments.queue.PlayingQueueFragment
 import code.name.monkey.retromusic.helper.MusicPlayerRemote
 import code.name.monkey.retromusic.model.CategoryInfo
@@ -274,11 +258,7 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
             NOW_PLAYING_SCREEN_ID -> {
                 chooseFragmentForTheme()
                 binding.slidingPanel.updateLayoutParams<ViewGroup.LayoutParams> {
-                    height = if (nowPlayingScreen != Peek) {
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                    } else {
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                    }
+                    height = ViewGroup.LayoutParams.MATCH_PARENT
                     onServiceConnected()
                 }
             }
@@ -294,12 +274,12 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
                 playerFragment.addSwipeDetector()
             }
 
-            ADAPTIVE_COLOR_APP -> {
+            /*ADAPTIVE_COLOR_APP -> {
                 if (PreferenceUtil.nowPlayingScreen in listOf(Normal, Material, Flat)) {
                     chooseFragmentForTheme()
                     onServiceConnected()
                 }
-            }
+            }*/
 
             LIBRARY_CATEGORIES -> {
                 updateTabs()
@@ -380,7 +360,7 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
             ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 binding.slidingPanel.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                if (nowPlayingScreen != Peek) {
+                if (nowPlayingScreen == Blur) {
                     binding.slidingPanel.updateLayoutParams<ViewGroup.LayoutParams> {
                         height = ViewGroup.LayoutParams.MATCH_PARENT
                     }
@@ -429,28 +409,11 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
             navigationBarColor = surfaceColor()
             setTaskDescColor(paletteColor)
             val isColorLight = paletteColor.isColorLight
-            if (PreferenceUtil.isAdaptiveColor && (nowPlayingScreen == Normal || nowPlayingScreen == Flat || nowPlayingScreen == Material)) {
-                setLightNavigationBar(true)
-                setLightStatusBar(isColorLight)
-            } else if (nowPlayingScreen == Card || nowPlayingScreen == Blur || nowPlayingScreen == BlurCard) {
+            if (nowPlayingScreen == Blur) {
                 animateNavigationBarColor(Color.BLACK)
                 navigationBarColor = Color.BLACK
                 setLightStatusBar(false)
                 setLightNavigationBar(true)
-            } else if (nowPlayingScreen == Color || nowPlayingScreen == Tiny || nowPlayingScreen == Gradient) {
-                animateNavigationBarColor(paletteColor)
-                navigationBarColor = paletteColor
-                setLightNavigationBar(isColorLight)
-                setLightStatusBar(isColorLight)
-            } else if (nowPlayingScreen == Full) {
-                animateNavigationBarColor(paletteColor)
-                navigationBarColor = paletteColor
-                setLightNavigationBar(isColorLight)
-                setLightStatusBar(false)
-            } else if (nowPlayingScreen == Classic) {
-                setLightStatusBar(false)
-            } else if (nowPlayingScreen == Fit) {
-                setLightStatusBar(false)
             }
         }
     }
@@ -578,24 +541,8 @@ abstract class AbsSlidingMusicPanelActivity : AbsMusicServiceActivity(),
 
         val fragment: AbsPlayerFragment = when (nowPlayingScreen) {
             Blur -> BlurPlayerFragment()
-            Adaptive -> AdaptiveFragment()
-            Normal -> PlayerFragment()
-            Card -> CardFragment()
-            BlurCard -> CardBlurFragment()
-            Fit -> FitFragment()
-            Flat -> FlatPlayerFragment()
-            Full -> FullPlayerFragment()
-            Plain -> PlainPlayerFragment()
-            Simple -> SimplePlayerFragment()
-            Material -> MaterialFragment()
-            Color -> ColorFragment()
-            Gradient -> GradientPlayerFragment()
-            Tiny -> TinyPlayerFragment()
-            Peek -> PeekPlayerFragment()
-            Circle -> CirclePlayerFragment()
-            Classic -> ClassicPlayerFragment()
             MD3 -> MD3PlayerFragment()
-            else -> PlayerFragment()
+            else -> BlurPlayerFragment()
         } // must extend AbsPlayerFragment
         supportFragmentManager.commit {
             replace(R.id.playerFragmentContainer, fragment)
